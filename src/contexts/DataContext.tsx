@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import {
   Case, Counsel, Appointment, Transaction, Court, CaseType, District,
-  Task, Attendance, AttendanceStatus, Expense, DataContextType
+  Task, Attendance, AttendanceStatus, Expense, Salary, DataContextType
 } from '../types';
 import { supabase } from '../lib/supabase';
 import { useAuth } from './AuthContext';
 import { getFallbackCourts } from '../lib/aurangabadCourts';
 import { getFallbackCaseTypes, getFallbackDistricts } from '../lib/demoLookups';
 import { getDemoCases } from '../lib/demoCases';
+import { getDemoSalaries } from '../lib/demoSalaries';
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
@@ -60,6 +61,9 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [tasks, setTasks] = useState<Task[]>([]);
   const [attendance, setAttendance] = useState<Attendance[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  // Admin-only salary tracker — seeded with demo data so it's testable
+  // without a real database (see getDemoSalaries / tenantId effect below).
+  const [salaries, setSalaries] = useState<Salary[]>(getDemoSalaries());
 
   // Single fetch — only runs when tenant_id is available
   // Each query is independent and non-blocking
@@ -81,6 +85,8 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       .then(({ data }) => { if (data) setExpenses(toCamelCase(data)); });
     supabase.from('attendance').select('*').eq('tenant_id', tid).order('date', { ascending: false })
       .then(({ data }) => { if (data) setAttendance(toCamelCase(data)); });
+    supabase.from('salaries').select('*').eq('tenant_id', tid).order('created_at', { ascending: false })
+      .then(({ data }) => { if (data) setSalaries(toCamelCase(data)); });
   }, [tenantId]);
 
   // Courts / case types / districts are shared lookup tables (no tenant_id
@@ -110,7 +116,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // without a database. Other tenant-scoped lists stay empty since
       // they don't have a demo-data fallback.
       setCases(getDemoCases()); setCounsel([]); setAppointments([]); setTransactions([]);
-      setTasks([]); setAttendance([]); setExpenses([]);
+      setTasks([]); setAttendance([]); setExpenses([]); setSalaries(getDemoSalaries());
     }
   }, [tenantId, fetchAllData]);
 
@@ -432,6 +438,52 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     expenses.filter(e => e.month === month)
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
+  // ============================================================
+  // SALARY operations (admin-only in the UI)
+  // ============================================================
+  const addSalary = async (s: Omit<Salary, 'id' | 'createdAt' | 'updatedAt'>) => {
+    if (!tenantId) {
+      // Demo mode — optimistic local add without a real DB
+      const fake: Salary = {
+        ...s, id: `demo-salary-${Date.now()}`,
+        createdAt: new Date(), updatedAt: new Date(),
+      };
+      setSalaries(prev => [fake, ...prev]);
+      return;
+    }
+    const payload = toSnakeCase(s);
+    payload.tenant_id = tenantId;
+    const { data, error } = await supabase.from('salaries').insert([payload]).select().single();
+    if (error) throw new Error(error.message);
+    if (data) setSalaries(prev => [toCamelCase(data), ...prev]);
+  };
+
+  const updateSalary = async (id: string, s: Partial<Salary>) => {
+    if (!tenantId) {
+      setSalaries(prev => prev.map(x => x.id === id ? { ...x, ...s, updatedAt: new Date() } : x));
+      return;
+    }
+    const payload = toSnakeCase(s);
+    delete payload.tenant_id;
+    const { data, error } = await supabase.from('salaries').update(payload).eq('id', id).select().single();
+    if (error) throw new Error(error.message);
+    if (data) setSalaries(prev => prev.map(x => x.id === id ? toCamelCase(data) : x));
+  };
+
+  const deleteSalary = async (id: string) => {
+    if (!tenantId) {
+      setSalaries(prev => prev.filter(s => s.id !== id));
+      return;
+    }
+    const { error } = await supabase.from('salaries').delete().eq('id', id);
+    if (error) throw new Error(error.message);
+    setSalaries(prev => prev.filter(s => s.id !== id));
+  };
+
+  const getSalariesByMonth = (month: string): Salary[] =>
+    salaries.filter(s => s.month === month)
+      .sort((a, b) => a.userName.localeCompare(b.userName));
+
   const value: DataContextType = {
     cases, counsel, appointments, transactions, courts, caseTypes, districts,
     tasks, attendance, expenses,
@@ -445,6 +497,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     addTask, updateTask, deleteTask, completeTask, markTaskNotified, getPendingTasksCount,
     markAttendance, clearAttendance, getAttendanceByUser, getAttendanceByDate,
     addExpense, updateExpense, deleteExpense, getExpensesByMonth,
+    salaries, addSalary, updateSalary, deleteSalary, getSalariesByMonth,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

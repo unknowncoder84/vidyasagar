@@ -127,6 +127,21 @@ export interface Expense {
   updatedAt: Date;
 }
 
+// Salary Types — admin-only tracking of each team member's pay per month
+export interface Salary {
+  id: string;
+  userId: string; // User ID the salary is for
+  userName: string; // User name for display (snapshot at time of entry)
+  amount: number;
+  month: string; // Format: "YYYY-MM"
+  notes?: string;
+  paid: boolean;
+  addedBy: string; // User ID of the admin who recorded it
+  addedByName: string; // Admin name for display
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // Court Types
 export interface Court {
   id: string;
@@ -260,6 +275,12 @@ export interface DataContextType {
   deleteExpense: (id: string) => void | Promise<void>;
   getExpensesByMonth: (month: string) => Expense[];
   updateTransaction: (id: string, transactionData: Partial<Transaction>) => void | Promise<void>;
+  // Salary Management (admin-only in the UI)
+  salaries: Salary[];
+  addSalary: (salaryData: Omit<Salary, 'id' | 'createdAt' | 'updatedAt'>) => void | Promise<void>;
+  updateSalary: (id: string, salaryData: Partial<Salary>) => void | Promise<void>;
+  deleteSalary: (id: string) => void | Promise<void>;
+  getSalariesByMonth: (month: string) => Salary[];
 }
 
 // Tenant (Firm) Types

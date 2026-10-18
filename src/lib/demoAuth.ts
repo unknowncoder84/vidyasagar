@@ -24,6 +24,50 @@ export const getDemoUser = (username: string): User => ({
   updatedAt: new Date(),
 });
 
+/** Demo team roster — gives the Admin Panel and the new Salary tracker
+ *  (Expenses → Salary, admin-only) some sample team members to work with
+ *  when no real database is connected. The signed-in demo admin
+ *  (getDemoUser) is always included first so "added by" attribution and
+ *  self-reference checks behave the same as with a real team. */
+export const getDemoTeam = (adminUser: User): User[] => {
+  const demoStaff: User[] = [
+    {
+      id: 'demo-user-2',
+      name: 'Priya Sharma',
+      email: 'priya.sharma@vidyasagarsir.local',
+      username: 'priya.sharma',
+      role: 'manager',
+      isActive: true,
+      tenant_id: DEMO_TENANT_ID,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: 'demo-user-3',
+      name: 'Rahul Deshmukh',
+      email: 'rahul.deshmukh@vidyasagarsir.local',
+      username: 'rahul.deshmukh',
+      role: 'user',
+      isActive: true,
+      tenant_id: DEMO_TENANT_ID,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: 'demo-user-4',
+      name: 'Ayesha Khan',
+      email: 'ayesha.khan@vidyasagarsir.local',
+      username: 'ayesha.khan',
+      role: 'user',
+      isActive: true,
+      tenant_id: DEMO_TENANT_ID,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+  return [adminUser, ...demoStaff];
+};
+
 /** Demo-mode "login" — always succeeds, no real backend call. Any
  *  username/password is accepted so the person showing the demo doesn't
  *  need to remember a specific credential. */

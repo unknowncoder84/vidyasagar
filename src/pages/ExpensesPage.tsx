@@ -1,14 +1,15 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { Plus, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Trash2, TrendingDown, TrendingUp, Users, IndianRupee, CheckCircle2, Clock, Edit2, X } from 'lucide-react';
 import MainLayout from '../components/MainLayout';
 import { useData } from '../contexts/DataContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { formatIndianDate } from '../utils/dateFormat';
+import { Salary, User } from '../types';
 
-type ViewMode = 'expenses' | 'income';
+type ViewMode = 'expenses' | 'income' | 'salary';
 
 interface IncomeRow {
   id: string;
@@ -21,9 +22,9 @@ interface IncomeRow {
 }
 
 const ExpensesPage: React.FC = () => {
-  const { expenses, deleteExpense, getExpensesByMonth } = useData();
+  const { expenses, deleteExpense, getExpensesByMonth, salaries, addSalary, updateSalary, deleteSalary, getSalariesByMonth } = useData();
   const { theme } = useTheme();
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, users } = useAuth();
   const [showAddModal, setShowAddModal] = useState(false);
   const [view, setView] = useState<ViewMode>('expenses');
   const [selectedMonth, setSelectedMonth] = useState(() => {
@@ -34,6 +35,11 @@ const ExpensesPage: React.FC = () => {
   // ── Income state ──
   const [income, setIncome] = useState<IncomeRow[]>([]);
   const [incomeLoading, setIncomeLoading] = useState(false);
+
+  // ── Salary state ──
+  const [showSalaryModal, setShowSalaryModal] = useState(false);
+  const [editingSalary, setEditingSalary] = useState<Salary | null>(null);
+
   const tenantId = user?.tenant_id;
 
   const monthlyExpenses = useMemo(() => {
@@ -84,6 +90,12 @@ const ExpensesPage: React.FC = () => {
 
   const incomeTotal = useMemo(() => income.reduce((sum, r) => sum + r.amount, 0), [income]);
 
+  // ── Salary computed ──
+  const monthlySalaries = useMemo(() => getSalariesByMonth(selectedMonth), [salaries, selectedMonth, getSalariesByMonth]);
+  const salaryTotal = useMemo(() => monthlySalaries.reduce((sum, s) => sum + s.amount, 0), [monthlySalaries]);
+  const salaryPaidTotal = useMemo(() => monthlySalaries.filter(s => s.paid).reduce((sum, s) => sum + s.amount, 0), [monthlySalaries]);
+  const salaryPendingTotal = useMemo(() => monthlySalaries.filter(s => !s.paid).reduce((sum, s) => sum + s.amount, 0), [monthlySalaries]);
+
   const cardBg = theme === 'light' ? 'bg-white/95 backdrop-blur-xl border-gray-200 shadow-md' : 'glass-dark border-cyber-blue/20';
   const textPrimary = theme === 'light' ? 'text-gray-900' : 'text-cyber-blue';
   const textSecondary = theme === 'light' ? 'text-gray-700' : 'text-cyber-blue/60';
@@ -112,10 +124,14 @@ const ExpensesPage: React.FC = () => {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <h1 className={`text-2xl md:text-3xl font-bold font-cyber ${textPrimary}`}>
-              {view === 'expenses' ? 'Expense Management' : 'Income — Payments Received'}
+              {view === 'expenses' ? 'Expense Management' : view === 'income' ? 'Income — Payments Received' : 'Staff Salary Tracker'}
             </h1>
             <p className={`mt-1 ${textSecondary} font-court`}>
-              {view === 'expenses' ? 'Track and manage monthly office expenses' : 'Monthly view of payments received per case'}
+              {view === 'expenses'
+                ? 'Track and manage monthly office expenses'
+                : view === 'income'
+                ? 'Monthly view of payments received per case'
+                : 'Admin-only view of team salaries by month'}
             </p>
           </div>
           {view === 'expenses' && (
@@ -125,6 +141,15 @@ const ExpensesPage: React.FC = () => {
             >
               <Plus size={20} />
               Add Expense
+            </button>
+          )}
+          {view === 'salary' && isAdmin && (
+            <button
+              onClick={() => { setEditingSalary(null); setShowSalaryModal(true); }}
+              className="bg-gradient-cyber text-white px-6 py-3 rounded-xl font-semibold font-cyber hover:shadow-cyber transition-all duration-300 border border-cyber-blue/30 flex items-center gap-2"
+            >
+              <Plus size={20} />
+              Add Salary
             </button>
           )}
         </div>
@@ -143,6 +168,14 @@ const ExpensesPage: React.FC = () => {
           >
             <TrendingUp size={16} /> Income
           </button>
+          {isAdmin && (
+            <button
+              onClick={() => setView('salary')}
+              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${view === 'salary' ? 'bg-gradient-to-r from-purple-500 to-violet-600 text-white' : textSecondary}`}
+            >
+              <Users size={16} /> Salary
+            </button>
+          )}
         </div>
       </motion.div>
 
@@ -300,6 +333,150 @@ const ExpensesPage: React.FC = () => {
 
       {/* Add Expense Modal */}
       {showAddModal && <AddExpenseModal onClose={() => setShowAddModal(false)} />}
+
+      {/* ════════════ SALARY VIEW (admin only) ════════════ */}
+      {view === 'salary' && isAdmin && (
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
+          {/* Summary cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className={`${cardBg} p-5 rounded-xl border flex items-center gap-4`}>
+              <div className="p-3 bg-gradient-to-r from-purple-500 to-violet-600 rounded-xl">
+                <Users size={24} className="text-white" />
+              </div>
+              <div>
+                <p className={`text-xs ${textSecondary}`}>Total Payroll</p>
+                <p className={`text-2xl font-bold ${textPrimary}`}>₹{salaryTotal.toLocaleString('en-IN')}</p>
+              </div>
+            </div>
+            <div className={`${cardBg} p-5 rounded-xl border flex items-center gap-4`}>
+              <div className="p-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl">
+                <CheckCircle2 size={24} className="text-white" />
+              </div>
+              <div>
+                <p className={`text-xs ${textSecondary}`}>Paid</p>
+                <p className="text-2xl font-bold text-green-500">₹{salaryPaidTotal.toLocaleString('en-IN')}</p>
+              </div>
+            </div>
+            <div className={`${cardBg} p-5 rounded-xl border flex items-center gap-4`}>
+              <div className="p-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl">
+                <Clock size={24} className="text-white" />
+              </div>
+              <div>
+                <p className={`text-xs ${textSecondary}`}>Pending</p>
+                <p className="text-2xl font-bold text-amber-400">₹{salaryPendingTotal.toLocaleString('en-IN')}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Salary rows */}
+          <div className={`${cardBg} rounded-2xl border overflow-hidden`}>
+            <div className={`p-5 border-b ${rowBorder} flex items-center gap-3`}>
+              <div className="p-2.5 bg-gradient-to-r from-purple-500 to-violet-600 rounded-xl">
+                <IndianRupee size={20} className="text-white" />
+              </div>
+              <h2 className={`font-bold ${textPrimary}`}>Staff Salaries — {formatMonthName(selectedMonth)}</h2>
+            </div>
+
+            {monthlySalaries.length === 0 ? (
+              <div className="text-center py-14">
+                <Users size={40} className={`${textSecondary} mx-auto mb-3 opacity-40`} />
+                <p className={`${textSecondary} mb-4`}>No salary records for {formatMonthName(selectedMonth)}</p>
+                <button
+                  onClick={() => { setEditingSalary(null); setShowSalaryModal(true); }}
+                  className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-violet-600 text-white rounded-xl font-semibold text-sm hover:opacity-90 transition-all"
+                >
+                  + Add First Salary Entry
+                </button>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className={`text-left ${textSecondary} border-b ${rowBorder}`}>
+                      <th className="p-4 font-semibold">Staff Member</th>
+                      <th className="p-4 font-semibold">Amount</th>
+                      <th className="p-4 font-semibold">Status</th>
+                      <th className="p-4 font-semibold">Notes</th>
+                      <th className="p-4 font-semibold">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {monthlySalaries.map((sal) => (
+                      <tr key={sal.id} className={`border-b ${rowBorder} last:border-0`}>
+                        <td className={`p-4 font-medium ${textPrimary}`}>
+                          {sal.userName}
+                          <span className={`block text-xs ${textSecondary}`}>ID: {sal.userId}</span>
+                        </td>
+                        <td className="p-4 font-bold text-purple-400">₹{sal.amount.toLocaleString('en-IN')}</td>
+                        <td className="p-4">
+                          {sal.paid ? (
+                            <span className="flex items-center gap-1.5 text-green-400 text-xs font-semibold">
+                              <CheckCircle2 size={14} /> Paid
+                            </span>
+                          ) : (
+                            <span className="flex items-center gap-1.5 text-amber-400 text-xs font-semibold">
+                              <Clock size={14} /> Pending
+                            </span>
+                          )}
+                        </td>
+                        <td className={`p-4 ${textSecondary}`}>{sal.notes || '—'}</td>
+                        <td className="p-4">
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => { setEditingSalary(sal); setShowSalaryModal(true); }}
+                              className="p-2 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-all border border-purple-500/30"
+                              title="Edit"
+                            >
+                              <Edit2 size={15} />
+                            </button>
+                            <button
+                              onClick={async () => {
+                                if (window.confirm('Delete this salary record?')) await deleteSalary(sal.id);
+                              }}
+                              className="p-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all border border-red-500/30"
+                              title="Delete"
+                            >
+                              <Trash2 size={15} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            {monthlySalaries.length > 0 && (
+              <div className={`p-5 border-t ${rowBorder} flex items-center justify-between`}>
+                <span className={`font-semibold ${textPrimary}`}>Total payroll for {formatMonthName(selectedMonth)}:</span>
+                <span className="text-2xl font-bold text-purple-400">₹{salaryTotal.toLocaleString('en-IN')}</span>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Add / Edit Salary Modal */}
+      <AnimatePresence>
+        {showSalaryModal && (
+          <SalaryModal
+            existing={editingSalary}
+            users={users}
+            selectedMonth={selectedMonth}
+            onClose={() => { setShowSalaryModal(false); setEditingSalary(null); }}
+            onSave={async (data) => {
+              if (editingSalary) {
+                await updateSalary(editingSalary.id, data);
+              } else {
+                await addSalary(data);
+              }
+              setShowSalaryModal(false);
+              setEditingSalary(null);
+            }}
+          />
+        )}
+      </AnimatePresence>
     </MainLayout>
   );
 };
@@ -412,6 +589,191 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ onClose }) => {
                 theme === 'light'
                   ? 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300'
                   : 'bg-cyber-blue/10 text-cyber-blue hover:bg-cyber-blue/20 border border-cyber-blue/30'
+              }`}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Salary Modal — Add / Edit a salary record (admin only)
+// ─────────────────────────────────────────────────────────────────────────────
+interface SalaryModalProps {
+  existing: Salary | null;
+  users: User[];
+  selectedMonth: string;
+  onClose: () => void;
+  onSave: (data: Omit<Salary, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+}
+
+const SalaryModal: React.FC<SalaryModalProps> = ({ existing, users, selectedMonth, onClose, onSave }) => {
+  const { theme } = useTheme();
+  const { user: adminUser } = useAuth();
+
+  const [formData, setFormData] = useState({
+    userId: existing?.userId || (users[0]?.id ?? ''),
+    userName: existing?.userName || (users[0]?.name ?? ''),
+    amount: existing ? String(existing.amount) : '',
+    month: existing?.month || selectedMonth,
+    notes: existing?.notes || '',
+    paid: existing?.paid ?? false,
+  });
+  const [saving, setSaving] = useState(false);
+
+  // Sync userName when userId changes
+  const handleUserChange = (uid: string) => {
+    const found = users.find(u => u.id === uid);
+    setFormData(prev => ({ ...prev, userId: uid, userName: found?.name || uid }));
+  };
+
+  const cardBg = theme === 'light' ? 'bg-white' : 'glass-dark';
+  const inputBg = theme === 'light' ? 'bg-white text-gray-900 border-gray-300' : 'bg-white/5 text-white border-purple-500/30';
+  const labelCls = theme === 'light' ? 'text-gray-700' : 'text-cyber-blue/80';
+  const textPrimary = theme === 'light' ? 'text-gray-900' : 'text-cyber-blue';
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.userId || !formData.amount || !formData.month) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    setSaving(true);
+    try {
+      await onSave({
+        userId: formData.userId,
+        userName: formData.userName,
+        amount: parseFloat(formData.amount),
+        month: formData.month,
+        notes: formData.notes || undefined,
+        paid: formData.paid,
+        addedBy: adminUser?.id || '',
+        addedByName: adminUser?.name || 'Admin',
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+        className={`${cardBg} p-6 rounded-2xl border ${theme === 'light' ? 'border-gray-200' : 'border-purple-500/30'} max-w-lg w-full`}
+      >
+        <div className="flex items-center justify-between mb-6">
+          <h2 className={`text-xl font-bold ${textPrimary}`}>{existing ? 'Edit Salary Record' : 'Add Salary Record'}</h2>
+          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-white/10 transition-all">
+            <X size={20} className={textPrimary} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Staff member */}
+          <div>
+            <label className={`block text-sm font-semibold mb-2 ${labelCls}`}>Staff Member *</label>
+            {users.length > 0 ? (
+              <select
+                value={formData.userId}
+                onChange={(e) => handleUserChange(e.target.value)}
+                className={`w-full px-4 py-3 rounded-lg border ${inputBg} focus:outline-none focus:border-purple-500`}
+                required
+              >
+                {users.map(u => (
+                  <option key={u.id} value={u.id}>
+                    {u.name} ({u.role}) — {u.id}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type="text"
+                value={formData.userName}
+                onChange={(e) => setFormData(prev => ({ ...prev, userName: e.target.value }))}
+                placeholder="Staff member name"
+                className={`w-full px-4 py-3 rounded-lg border ${inputBg} focus:outline-none focus:border-purple-500`}
+                required
+              />
+            )}
+          </div>
+
+          {/* Amount */}
+          <div>
+            <label className={`block text-sm font-semibold mb-2 ${labelCls}`}>Salary Amount (₹) *</label>
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={formData.amount}
+              onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
+              placeholder="e.g. 35000"
+              className={`w-full px-4 py-3 rounded-lg border ${inputBg} focus:outline-none focus:border-purple-500`}
+              required
+            />
+          </div>
+
+          {/* Month */}
+          <div>
+            <label className={`block text-sm font-semibold mb-2 ${labelCls}`}>Month *</label>
+            <input
+              type="month"
+              value={formData.month}
+              onChange={(e) => setFormData(prev => ({ ...prev, month: e.target.value }))}
+              className={`w-full px-4 py-3 rounded-lg border ${inputBg} focus:outline-none focus:border-purple-500`}
+              required
+            />
+          </div>
+
+          {/* Notes */}
+          <div>
+            <label className={`block text-sm font-semibold mb-2 ${labelCls}`}>Notes</label>
+            <input
+              type="text"
+              value={formData.notes}
+              onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
+              placeholder="Optional remarks"
+              className={`w-full px-4 py-3 rounded-lg border ${inputBg} focus:outline-none focus:border-purple-500`}
+            />
+          </div>
+
+          {/* Paid toggle */}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setFormData(prev => ({ ...prev, paid: !prev.paid }))}
+              className={`w-12 h-6 rounded-full transition-all duration-300 relative ${formData.paid ? 'bg-green-500' : theme === 'light' ? 'bg-gray-300' : 'bg-white/20'}`}
+            >
+              <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-300 ${formData.paid ? 'left-6' : 'left-0.5'}`} />
+            </button>
+            <span className={`text-sm font-medium ${textPrimary}`}>{formData.paid ? 'Paid' : 'Pending payment'}</span>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-4 pt-2">
+            <button
+              type="submit"
+              disabled={saving}
+              className="flex-1 bg-gradient-to-r from-purple-500 to-violet-600 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-all disabled:opacity-50"
+            >
+              {saving ? 'Saving…' : existing ? 'Update' : 'Add Salary'}
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className={`flex-1 font-semibold py-3 rounded-lg transition-all ${
+                theme === 'light'
+                  ? 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300'
+                  : 'bg-white/5 text-white hover:bg-white/10 border border-white/10'
               }`}
             >
               Cancel

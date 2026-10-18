@@ -9,7 +9,7 @@ import {
   deleteUserAccountDb,
 } from '../lib/userManagement';
 import { isSupabaseConfigured } from '../lib/supabase';
-import { demoAuthenticate, getDemoUser } from '../lib/demoAuth';
+import { demoAuthenticate, getDemoUser, getDemoTeam } from '../lib/demoAuth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -68,7 +68,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (res.success && res.users) setUsers(res.users);
       });
     } else if (user?.role === 'admin') {
-      setUsers([user]);
+      // Demo mode — show a sample team roster instead of just the solo
+      // demo admin, so features like Admin Panel and Salary tracking
+      // have people to work with.
+      setUsers(getDemoTeam(user));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -98,7 +101,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (res.success && res.users) setUsers(res.users);
         });
       } else if (result.user.role === 'admin') {
-        setUsers([result.user]);
+        setUsers(getDemoTeam(result.user));
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Login failed';
