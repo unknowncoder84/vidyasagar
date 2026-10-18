@@ -14,23 +14,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="VakilDesk" />
-    <script>
-      // Check for environment variables before loading the app
-      window.__checkEnvVars = function() {
-        // This will be replaced by Vite during build
-        const supabaseUrl = '%VITE_SUPABASE_URL%';
-        const supabaseKey = '%VITE_SUPABASE_ANON_KEY%';
-        
-        // If env vars are not set (still have % markers), redirect to error page
-        if (supabaseUrl.includes('%') || supabaseKey.includes('%') || 
-            !supabaseUrl || !supabaseKey ||
-            supabaseUrl === 'undefined' || supabaseKey === 'undefined') {
-          window.location.href = '/config-error.html';
-          return false;
-        }
-        return true;
-      };
-    </script>
   </head>
   <body>
     <div id="root"></div>

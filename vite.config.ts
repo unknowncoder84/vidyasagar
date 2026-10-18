@@ -33,10 +33,9 @@ export default defineConfig({
         // Precache the built app shell; navigation falls back to index.html (SPA)
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
         navigateFallback: '/index.html',
-        // Never let the service worker intercept the config-error page
-        navigateFallbackDenylist: [/^\/config-error\.html$/],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
+        skipWaiting: true,
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
       },
     }),
