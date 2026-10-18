@@ -176,17 +176,17 @@ const SubscriptionPage: React.FC = () => {
 
   const openContactModal = (planName: string) => {
     if (planName === 'Custom') {
-      window.open('https://wa.me/918693852452?text=I want VakilDesk Custom plan for my firm', '_blank');
+      window.open('https://wa.me/918693852452?text=I want Vidyasagar Sir Custom plan for my firm', '_blank');
       return;
     }
     setModalMessage(`Payment integration coming soon!\nContact us to upgrade: +91 86938 52452`);
-    setWhatsappLink(`https://wa.me/918693852452?text=I want to upgrade to ${planName} plan on VakilDesk`);
+    setWhatsappLink(`https://wa.me/918693852452?text=I want to upgrade to ${planName} plan on Vidyasagar Sir`);
     setShowModal(true);
   };
 
   const openAddonModal = (addonName: string) => {
     setModalMessage(`Contact us to activate this add-on:\n+91 86938 52452`);
-    setWhatsappLink(`https://wa.me/918693852452?text=I want to activate the ${addonName} add-on on VakilDesk`);
+    setWhatsappLink(`https://wa.me/918693852452?text=I want to activate the ${addonName} add-on on Vidyasagar Sir`);
     setShowModal(true);
   };
 
@@ -379,7 +379,7 @@ const SubscriptionPage: React.FC = () => {
               <h3 className={`${h} font-bold text-lg mb-2`}>White Label Branding</h3>
               <p className={`${sub} text-sm mb-3 max-w-sm mx-auto`}>
                 Show your firm name prominently throughout the app. Your firm name will be displayed
-                alongside the VakilDesk platform brand.
+                alongside the Vidyasagar Sir platform brand.
               </p>
               <p className={`text-xs text-orange-400 font-medium mb-1`}>
                 Available on Custom plan only
@@ -395,10 +395,10 @@ const SubscriptionPage: React.FC = () => {
                 <h3 className={`text-xl font-bold ${h}`}>Customize Your Branding</h3>
               </div>
               <p className={`${sub} text-sm mb-1`}>
-                Your firm name will appear prominently throughout the app alongside the VakilDesk platform.
+                Your firm name will appear prominently throughout the app alongside the Vidyasagar Sir platform.
               </p>
               <p className={`text-xs text-orange-400/70 font-medium mb-6`}>
-                Note: "VakilDesk" remains visible as the platform brand. White label means your firm name is prominently shown everywhere.
+                Note: "Vidyasagar Sir" remains visible as the platform brand. White label means your firm name is prominently shown everywhere.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
@@ -423,7 +423,7 @@ const SubscriptionPage: React.FC = () => {
                   <div className={`w-48 h-64 rounded-xl border overflow-hidden ${theme === 'light' ? 'border-gray-200 bg-gray-50' : 'border-white/10 bg-[#1a1a2e]'}`}>
                     <div className="p-3 border-b border-gray-200/20" style={{ backgroundColor: brandColor + '20' }}>
                       <div className="w-8 h-8 rounded-lg mb-2" style={{ backgroundColor: brandColor }} />
-                      <div className={`text-xs font-bold truncate ${h}`}>VakilDesk</div>
+                      <div className={`text-xs font-bold truncate ${h}`}>Vidyasagar Sir</div>
                       <div className={`text-[10px] truncate ${sub}`}>{brandName || 'Your Firm'}</div>
                     </div>
                     <div className="p-2 space-y-1.5">

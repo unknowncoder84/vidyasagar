@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+﻿import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Clock, User, Trash2, Edit, X, CheckCircle, AlertCircle } from 'lucide-react';
 import MainLayout from '../components/MainLayout';
@@ -457,7 +457,7 @@ const AppointmentsPage: React.FC = () => {
         className="mt-8 text-center"
       >
         <p className={`text-sm ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>
-          Designed and Developed by <span className="text-cyan-400">vakildeskmain@gmail.com</span> © 2025
+          Designed and Developed by <span className="text-cyan-400">vidyasagarsirmain@gmail.com</span> © 2025
         </p>
       </motion.div>
 

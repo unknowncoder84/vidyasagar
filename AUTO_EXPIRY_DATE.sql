@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: AUTO_EXPIRY_DATE.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: AUTO_EXPIRY_DATE.sql
 -- Makes a paid plan behave like a mobile plan:
 -- the moment a paid plan is active, it gets a
 -- validity date (default = 1 month from now) if

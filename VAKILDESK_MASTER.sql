@@ -1,7 +1,7 @@
+﻿-- ================================================
+-- VIDYASAGAR SIR_MASTER.sql
 -- ================================================
--- VAKILDESK_MASTER.sql
--- ================================================
--- This is the ONE AND ONLY SQL file for VakilDesk.
+-- This is the ONE AND ONLY SQL file for VIDYASAGAR SIR.
 -- Run it on a CLEAN Supabase project.
 --
 -- Before running, open SQL Editor and run:
@@ -896,7 +896,7 @@ GRANT EXECUTE ON FUNCTION save_email_settings TO anon, authenticated, service_ro
 -- ─────────────────────────────────────────────
 -- BLOCK 10 — Final instructions
 -- ─────────────────────────────────────────────
--- VAKILDESK_MASTER.sql complete.
+-- VIDYASAGAR SIR_MASTER.sql complete.
 -- 26 tables | 11 RPCs | full RLS | 83 seed rows
 -- Gmail app password is write-only (browser cannot
 -- read it back; only the backend service key can).
@@ -907,5 +907,5 @@ GRANT EXECUTE ON FUNCTION save_email_settings TO anon, authenticated, service_ro
 -- 3. Click Run
 -- 4. Confirm zero errors in Results panel
 -- 5. Table Editor → verify all 26 tables exist
--- 6. Open VakilDesk → Register Firm → done
+-- 6. Open VIDYASAGAR SIR → Register Firm → done
 -- ─────────────────────────────────────────────

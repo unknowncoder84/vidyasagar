@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: TASK_NOTIFICATIONS.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: TASK_NOTIFICATIONS.sql
 -- Adds one-time popup notifications for task
 -- assignment and completion:
 --   * When admin assigns a task -> the assigned

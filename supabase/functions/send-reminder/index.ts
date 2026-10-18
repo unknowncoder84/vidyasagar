@@ -1,4 +1,4 @@
-// VakilDesk — send-reminder Edge Function
+﻿// Vidyasagar Sir — send-reminder Edge Function
 // Two modes:
 //   1. Single send: { tenant_id, case_id } — used by "Send Now" button
 //   2. Batch send:  { batch: true }        — used by daily pg_cron schedule
@@ -59,7 +59,7 @@ function buildEmail(firm: string, client: string, c: Record<string, unknown>) {
 <table width="100%" cellpadding="0" cellspacing="0" style="padding:30px 15px;background:#f1f5f9;"><tr><td align="center">
 <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;">
 <tr><td style="padding:26px 28px;text-align:center;background:linear-gradient(135deg,#f97316,#ea580c);">
-<h1 style="margin:0;color:#fff;font-size:20px;">&#9878;&#65039; VakilDesk</h1>
+<h1 style="margin:0;color:#fff;font-size:20px;">&#9878;&#65039; Vidyasagar Sir</h1>
 <p style="margin:5px 0 0;color:rgba(255,255,255,.85);font-size:12px;">Reminder from <strong>${firm}</strong></p>
 </td></tr>
 <tr><td style="padding:24px 28px;">
@@ -72,7 +72,7 @@ function buildEmail(firm: string, client: string, c: Record<string, unknown>) {
 <tr><td style="padding:11px 14px;"><span style="color:#94a3b8;font-size:10px;text-transform:uppercase;">Case Type</span><p style="margin:3px 0 0;color:#334155;font-size:14px;">${c.case_type ?? "N/A"}</p></td></tr>
 </table></td></tr>
 <tr><td style="padding:16px 28px;text-align:center;border-top:1px solid #e2e8f0;background:#f8fafc;">
-<p style="margin:0;color:#94a3b8;font-size:11px;">Sent by ${firm} via VakilDesk. Contact your advocate to reschedule if needed.</p>
+<p style="margin:0;color:#94a3b8;font-size:11px;">Sent by ${firm} via Vidyasagar Sir. Contact your advocate to reschedule if needed.</p>
 </td></tr></table></td></tr></table></body></html>`;
   return { subject, html };
 }
@@ -239,10 +239,10 @@ async function handleSingle(body: Record<string, unknown>): Promise<Response> {
 
   if (test) {
     recipient = String(to || settings.smtp_email);
-    subject = `[${firm}] VakilDesk test email`;
+    subject = `[${firm}] Vidyasagar Sir test email`;
     html = `<div style="font-family:Arial,sans-serif;padding:20px;">
       <h2 style="color:#f97316;">✅ Gmail reminders are working</h2>
-      <p>This is a test email sent by <strong>${firm}</strong> through VakilDesk.
+      <p>This is a test email sent by <strong>${firm}</strong> through Vidyasagar Sir.
       Your clients will receive hearing reminders from <strong>${settings.smtp_email}</strong>.</p></div>`;
     reminderType = "test";
   } else {

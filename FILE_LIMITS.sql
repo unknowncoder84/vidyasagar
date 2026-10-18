@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: FILE_LIMITS.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: FILE_LIMITS.sql
 -- Adds a per-plan file-upload limit.
 --   Basic    -> 200 files
 --   Pro      -> 500 files

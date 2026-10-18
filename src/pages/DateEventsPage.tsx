@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+﻿import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, ArrowLeft, FileText, Gavel, Users } from 'lucide-react';
@@ -435,7 +435,7 @@ const DateEventsPage: React.FC = () => {
           className="text-center pt-8"
         >
           <p className={`text-sm ${textSecondary}`}>
-            Designed and Developed by <span className="text-cyan-400">vakildeskmain@gmail.com</span> © 2025
+            Designed and Developed by <span className="text-cyan-400">vidyasagarsirmain@gmail.com</span> © 2025
           </p>
         </motion.div>
       </div>

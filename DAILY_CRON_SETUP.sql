@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: DAILY_CRON_SETUP.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: DAILY_CRON_SETUP.sql
 -- ============================================
 -- Run ONCE in Supabase → SQL Editor.
 -- Sets up a daily 8 AM IST automatic email run.
@@ -26,15 +26,15 @@ CREATE EXTENSION IF NOT EXISTS pg_cron;
 CREATE EXTENSION IF NOT EXISTS pg_net;
 
 -- Step 2: Remove old schedule if exists (idempotent)
-SELECT cron.unschedule('vakildesk-daily-reminders')
+SELECT cron.unschedule('vidyasagar-sir-daily-reminders')
 WHERE EXISTS (
-  SELECT 1 FROM cron.job WHERE jobname = 'vakildesk-daily-reminders'
+  SELECT 1 FROM cron.job WHERE jobname = 'vidyasagar-sir-daily-reminders'
 );
 
 -- Step 3: Schedule daily at 02:30 UTC = 08:00 AM IST
 -- ⚠️ REPLACE 'YOUR_SERVICE_ROLE_KEY' with your actual key before running!
 SELECT cron.schedule(
-  'vakildesk-daily-reminders',
+  'vidyasagar-sir-daily-reminders',
   '30 2 * * *',
   $$
   SELECT net.http_post(
@@ -55,6 +55,6 @@ SELECT cron.schedule(
 --   SELECT * FROM cron.job;
 --
 -- To change time (e.g. 9 AM IST = 3:30 UTC):
---   SELECT cron.unschedule('vakildesk-daily-reminders');
+--   SELECT cron.unschedule('vidyasagar-sir-daily-reminders');
 --   Then re-run Step 3 with '30 3 * * *'
 -- ============================================

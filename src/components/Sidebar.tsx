@@ -107,18 +107,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
             className="w-9 h-9 rounded-sm flex items-center justify-center flex-shrink-0 font-display font-bold text-sm"
             style={{ backgroundColor: 'rgb(82 82 91)', color: '#fafafa' }}
           >
-            VD
+            VS
           </div>
           <div className="flex-1 min-w-0">
             {whiteLabel ? (
               <>
                 <h1 className={`font-display text-lg font-semibold tracking-tight leading-tight truncate ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{firmName}</h1>
-                <p className="text-[10px] uppercase tracking-[0.18em] text-gray-500 truncate leading-tight mt-0.5">by VakilDesk</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-gray-500 truncate leading-tight mt-0.5">by Vidyasagar Sir</p>
               </>
             ) : (
               <>
                 <h1 className={`font-display text-lg font-semibold tracking-tight leading-tight ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
-                  VakilDesk
+                  Vidyasagar Sir
                 </h1>
                 <p className="text-[10px] uppercase tracking-[0.18em] text-gray-500 truncate leading-tight mt-0.5">{firmName}</p>
               </>

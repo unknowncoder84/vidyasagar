@@ -1,4 +1,4 @@
-import { Case } from '../types';
+﻿import { Case } from '../types';
 import * as XLSX from 'xlsx';
 
 // Helper function to format date in Indian format
@@ -161,7 +161,7 @@ export const exportToPDF = (cases: Case[], _filename: string = 'cases.pdf') => {
       </head>
       <body>
         <div class="header">
-          <h1>VakilDesk - Case Management Report</h1>
+          <h1>Vidyasagar Sir - Case Management Report</h1>
           <p>Generated on: ${formatDate(new Date())} | Total Cases: ${cases.length}</p>
         </div>
         <table>
@@ -178,7 +178,7 @@ export const exportToPDF = (cases: Case[], _filename: string = 'cases.pdf') => {
           Total Fees: ₹${(Math.round(cases.reduce((sum, c) => sum + (c.feesQuoted || 0), 0) * 100) / 100).toLocaleString()}
         </div>
         <div class="footer">
-          <p>This report was generated from VakilDesk - Legal Office Management System</p>
+          <p>This report was generated from Vidyasagar Sir - Legal Office Management System</p>
         </div>
       </body>
     </html>

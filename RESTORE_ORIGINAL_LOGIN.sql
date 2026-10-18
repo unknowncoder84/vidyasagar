@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: RESTORE_ORIGINAL_LOGIN.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: RESTORE_ORIGINAL_LOGIN.sql
 -- Puts login back to the ORIGINAL simple system:
 --   * passwords stored/visible as plain text (as before)
 --   * login = plain username + password match

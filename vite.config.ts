@@ -13,8 +13,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png', 'logo.svg'],
       manifest: {
-        name: 'VakilDesk — Legal Office Management',
-        short_name: 'VakilDesk',
+        name: 'Vidyasagar Sir — Legal Office Management',
+        short_name: 'Vidyasagar Sir',
         description: 'Manage cases, clients, hearings, tasks and documents for your law firm.',
         theme_color: '#27272a',
         background_color: '#0f0f10',

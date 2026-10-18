@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: STORAGE_SETUP.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: STORAGE_SETUP.sql
 -- Run ONCE in Supabase SQL Editor.
 -- Fixes: "new row violates row-level security
 -- policy" when uploading case files.

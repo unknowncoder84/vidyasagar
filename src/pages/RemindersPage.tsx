@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Send, CheckCircle2, XCircle, CalendarClock, Settings, MessageSquare, Lock, Eye, EyeOff } from 'lucide-react';
 import MainLayout from '../components/MainLayout';
@@ -351,7 +351,7 @@ const RemindersPage: React.FC = () => {
                       Upgrade to Premium (₹4,999/mo) or activate the Gmail Add-on (₹499/mo)
                     </p>
                     <div className="flex gap-3 justify-center flex-wrap">
-                      <a href="https://wa.me/918693852452?text=I want to activate Gmail Reminders add-on on VakilDesk"
+                      <a href="https://wa.me/918693852452?text=I want to activate Gmail Reminders add-on on Vidyasagar Sir"
                         target="_blank" rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-medium text-sm hover:opacity-90 transition-opacity">
                         <Mail size={15} /> Get Gmail Add-on — ₹499/mo
@@ -445,7 +445,7 @@ const RemindersPage: React.FC = () => {
                         <p>1. Go to <span className="font-mono mx-1 bg-white/10 px-1 rounded">myaccount.google.com</span></p>
                         <p>2. Security → 2-Step Verification → enable it if not done</p>
                         <p>3. Security → search "App passwords" → click it</p>
-                        <p>4. App name: type "VakilDesk" → click Create</p>
+                        <p>4. App name: type "Vidyasagar Sir" → click Create</p>
                         <p>5. Copy the 16-character code → paste it above</p>
                         <p className={`mt-2 font-medium ${theme === 'light' ? 'text-blue-600' : 'text-blue-400'}`}>
                           ✅ Once saved, emails will send automatically from your Gmail
@@ -572,7 +572,7 @@ const RemindersPage: React.FC = () => {
               Interested in early access?
             </p>
             <a
-              href="https://wa.me/918693852452?text=I want early access to VakilDesk WhatsApp Reminders"
+              href="https://wa.me/918693852452?text=I want early access to Vidyasagar Sir WhatsApp Reminders"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-green-600 hover:bg-green-700 text-white transition-colors"

@@ -1,4 +1,4 @@
-// Plan gating utilities for VakilDesk
+﻿// Plan gating utilities for Vidyasagar Sir
 // Plans (low -> high): trial, basic, pro, advanced, custom
 // A feature requiring `pro` is unlocked for pro, advanced, and custom.
 

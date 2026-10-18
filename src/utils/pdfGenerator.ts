@@ -1,4 +1,4 @@
-import { jsPDF } from 'jspdf';
+﻿import { jsPDF } from 'jspdf';
 
 interface PaymentData {
   amount: number;
@@ -249,7 +249,7 @@ export const generateReceipt = (data: ReceiptData) => {
   // ─── SAVE ───
   const cleanName = caseData.client_name.replace(/[^a-zA-Z0-9]/g, '-');
   const dateStr = new Date().toLocaleDateString('en-IN').replace(/\//g, '-');
-  const filename = `VakilDesk-Receipt-${cleanName}-${dateStr}.pdf`;
+  const filename = `Vidyasagar Sir-Receipt-${cleanName}-${dateStr}.pdf`;
 
   doc.save(filename);
 };

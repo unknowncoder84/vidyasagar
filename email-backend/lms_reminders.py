@@ -1,5 +1,5 @@
-"""
-VakilDesk — Gmail SMTP Reminder System
+﻿"""
+VIDYASAGAR SIR — Gmail SMTP Reminder System
 =======================================
 Plug and play. No OAuth. No setup files.
 User enters Gmail + App Password in the app.
@@ -219,7 +219,7 @@ def make_email(
 <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);border:1px solid #e2e8f0;">
 <tr><td style="background:linear-gradient(135deg,#f97316 0%,#ea580c 100%);padding:28px 32px;text-align:center;">
 <p style="margin:0;font-size:28px;">&#9878;&#65039;</p>
-<h1 style="margin:10px 0 4px;color:#ffffff;font-size:22px;font-weight:700;">VakilDesk</h1>
+<h1 style="margin:10px 0 4px;color:#ffffff;font-size:22px;font-weight:700;">VIDYASAGAR SIR</h1>
 <p style="margin:0;color:rgba(255,255,255,0.88);font-size:13px;">Hearing Reminder from <strong>{firm}</strong></p>
 </td></tr>
 <tr><td style="padding:24px 32px 0;">
@@ -273,7 +273,7 @@ def make_email(
 <p style="margin:0;color:#475569;font-size:13px;line-height:1.7;">If you need to reschedule or have any queries, please contact <strong>{firm}</strong> at your earliest convenience. Wishing you the best for your hearing.</p>
 </td></tr>
 <tr><td style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:16px 32px;text-align:center;">
-<p style="margin:0;color:#94a3b8;font-size:11px;line-height:1.6;">This is an automated reminder sent by <strong>{firm}</strong> via <strong>VakilDesk</strong> Legal Office Management System.<br>Please do not reply to this email directly.</p>
+<p style="margin:0;color:#94a3b8;font-size:11px;line-height:1.6;">This is an automated reminder sent by <strong>{firm}</strong> via <strong>VIDYASAGAR SIR</strong> Legal Office Management System.<br>Please do not reply to this email directly.</p>
 </td></tr>
 </table>
 </td></tr>
@@ -316,7 +316,7 @@ def smtp_send(
 
 def main():
     print("=" * 50)
-    print("VakilDesk Gmail Reminder System")
+    print("VIDYASAGAR SIR Gmail Reminder System")
     print(f"Date: {ist_today()} IST")
     print("=" * 50)
 

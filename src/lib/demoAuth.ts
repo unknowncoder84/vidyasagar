@@ -1,4 +1,4 @@
-// Demo-mode authentication — lets the whole app be browsed and shown to
+﻿// Demo-mode authentication — lets the whole app be browsed and shown to
 // people (dashboard, cases, settings, browse-by-court, etc.) when no real
 // Supabase backend is connected yet, instead of blocking behind a
 // "Configuration Required" screen.
@@ -15,7 +15,7 @@ export const DEMO_TENANT_ID = 'demo-tenant-1';
 export const getDemoUser = (username: string): User => ({
   id: 'demo-user-1',
   name: username?.trim() || 'Demo Admin',
-  email: 'demo@vakildesk.local',
+  email: 'demo@vidyasagarsir.local',
   username: username?.trim() || 'demo',
   role: 'admin',
   isActive: true,

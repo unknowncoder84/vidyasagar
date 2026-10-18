@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: SUBSCRIPTION_HISTORY.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: SUBSCRIPTION_HISTORY.sql
 -- Adds renewal history + a helper to activate/renew a
 -- paid plan for a fixed number of months. When the
 -- period ends, the app locks automatically (paywall)

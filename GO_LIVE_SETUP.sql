@@ -1,5 +1,5 @@
--- ================================================================
--- VAKILDESK: GO_LIVE_SETUP.sql
+﻿-- ================================================================
+-- VIDYASAGAR SIR: GO_LIVE_SETUP.sql
 -- ================================================================
 -- Run this ONCE in Supabase → SQL Editor on your EXISTING database.
 -- It bundles everything needed to go live:
@@ -8,7 +8,7 @@
 --   3. Case-files storage bucket + upload policies
 -- Fully idempotent — safe to run more than once.
 --
--- (For a brand-new empty project, run VAKILDESK_MASTER.sql first,
+-- (For a brand-new empty project, run VIDYASAGAR SIR_MASTER.sql first,
 --  then this file.)
 -- ================================================================
 

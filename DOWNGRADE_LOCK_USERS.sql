@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: DOWNGRADE_LOCK_USERS.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: DOWNGRADE_LOCK_USERS.sql
 -- When a firm downgrades to a smaller plan (e.g.
 -- Pro -> Basic), any extra team members added on
 -- the bigger plan are automatically LOCKED

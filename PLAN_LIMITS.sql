@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: PLAN_LIMITS.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: PLAN_LIMITS.sql
 -- Run ONCE in Supabase SQL Editor.
 -- Makes max_users / max_cases follow the plan
 -- automatically, so when you change a firm's

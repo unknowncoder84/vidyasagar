@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: EMAIL_SETUP.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: EMAIL_SETUP.sql
 -- Run in Supabase SQL Editor (new + tab)
 -- Adds Gmail SMTP support + secures the
 -- app password so the browser can WRITE it

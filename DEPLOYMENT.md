@@ -1,4 +1,4 @@
-# VakilDesk — Go Live Guide
+﻿# VIDYASAGAR SIR — Go Live Guide
 
 Follow these 4 steps in order. Each is one-time.
 
@@ -12,7 +12,7 @@ Open Supabase → **SQL Editor** → New query.
   Paste **`GO_LIVE_SETUP.sql`** → Run. Done.
 
 - **Brand-new empty project:**
-  First run **`VAKILDESK_MASTER.sql`**, then run **`GO_LIVE_SETUP.sql`**.
+  First run **`VIDYASAGAR SIR_MASTER.sql`**, then run **`GO_LIVE_SETUP.sql`**.
 
 This sets up: Gmail email settings (secure), plan limits, and the case-files storage bucket.
 
@@ -40,7 +40,7 @@ only the in-app "Send Now"/"Test" buttons need this function.)
 
 ## Step 3 — Deploy the website (Netlify)
 
-1. Push the code to GitHub (already connected to `VAKILDESK001`).
+1. Push the code to GitHub (already connected to `VIDYASAGAR SIR001`).
 2. Netlify → Add new site → Import from GitHub → pick the repo.
 3. Build settings auto-fill from `netlify.toml` (build: `npm run build`, publish: `dist`).
 4. Add **Environment variables**:

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
@@ -362,7 +362,7 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
             {activeTab === 'register' && regSuccess && (
               <div className="text-center space-y-4 py-4">
                 <CheckCircle2 size={56} strokeWidth={1.5} className="text-green-400 mx-auto" />
-                <h2 className="font-display text-2xl font-semibold text-white">Welcome to VakilDesk</h2>
+                <h2 className="font-display text-2xl font-semibold text-white">Welcome to Vidyasagar Sir</h2>
                 <p className="text-green-400 font-medium text-sm">Your 14-day free trial has started.</p>
                 <p className="text-gray-400 text-sm">No credit card required. All features are unlocked during the trial.</p>
                 <p className="text-white font-semibold text-lg font-display">{firmName}</p>
@@ -396,7 +396,7 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0">
               <div>
                 <h2 className="font-display text-lg font-semibold text-white">Terms of Service</h2>
-                <p className="text-xs text-gray-400">VakilDesk — Legal Office Management System</p>
+                <p className="text-xs text-gray-400">Vidyasagar Sir — Legal Office Management System</p>
               </div>
               <button onClick={() => setShowTerms(false)} className="p-2 rounded-sm hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
                 <ArrowRight size={18} className="rotate-180" />
@@ -408,14 +408,14 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
               <p className="text-xs text-gray-500">Last updated: 14 June 2026</p>
 
               <p>
-                These Terms of Service ("Terms") govern your access to and use of VakilDesk,
+                These Terms of Service ("Terms") govern your access to and use of Vidyasagar Sir,
                 a cloud-based legal office management software ("the Service"). By creating an
                 account, ticking the consent box, or using the Service, you ("the Firm", "you")
                 agree to these Terms. If you do not agree, do not use the Service.
               </p>
 
               <Section n="1" title="Eligibility & Account">
-                <p>VakilDesk is intended for use by practising advocates, law firms, and their
+                <p>Vidyasagar Sir is intended for use by practising advocates, law firms, and their
                 authorised staff in India. You confirm that the information you provide during
                 registration — including firm name, owner name, email, mobile number, and Bar
                 Council enrolment number — is true and accurate. You are responsible for keeping
@@ -424,14 +424,14 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
               </Section>
 
               <Section n="2" title="What the Service Does">
-                <p>VakilDesk helps you manage cases, clients, counsel, hearings, tasks,
+                <p>Vidyasagar Sir helps you manage cases, clients, counsel, hearings, tasks,
                 attendance, expenses, documents, and a library/storage index. It can also send
                 hearing-date reminder emails to your clients on your behalf when you connect and
                 enable the email reminder feature. The Service is an administrative tool only.</p>
               </Section>
 
               <Section n="3" title="Not Legal Advice">
-                <p>VakilDesk is software for organising your practice. It does not provide legal
+                <p>Vidyasagar Sir is software for organising your practice. It does not provide legal
                 advice, does not interpret law, and is not a substitute for your professional
                 judgement. You remain solely responsible for all legal work, court deadlines,
                 filings, and advice given to your clients. Reminder dates, case stages, and any
@@ -449,7 +449,7 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
               </Section>
 
               <Section n="5" title="Your Data & Ownership">
-                <p>You own all data you enter into VakilDesk — your cases, clients, documents,
+                <p>You own all data you enter into Vidyasagar Sir — your cases, clients, documents,
                 and records. We act only as a processor that stores and displays this data so you
                 can run your practice. We do not sell your data. You may export your data
                 (e.g. CSV/Excel) at any time while your account is active. On account deletion,
@@ -476,14 +476,14 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
               </Section>
 
               <Section n="8" title="Acceptable Use">
-                <p>You agree not to use VakilDesk to store unlawful content, to send unsolicited
+                <p>You agree not to use Vidyasagar Sir to store unlawful content, to send unsolicited
                 bulk messages, to attempt to access another firm's data, to reverse-engineer or
                 disrupt the Service, or to use it in any way that violates Indian law or the
                 professional conduct rules applicable to advocates.</p>
               </Section>
 
               <Section n="9" title="Availability & Disclaimer">
-                <p>We work to keep VakilDesk available and reliable, but the Service is provided
+                <p>We work to keep Vidyasagar Sir available and reliable, but the Service is provided
                 "as is" and "as available" without warranties of any kind. We do not guarantee
                 that the Service will be uninterrupted, error-free, or that reminders will always
                 be delivered. You should maintain your own independent record of critical court
@@ -491,7 +491,7 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
               </Section>
 
               <Section n="10" title="Limitation of Liability">
-                <p>To the maximum extent permitted by law, VakilDesk and its operators shall not be
+                <p>To the maximum extent permitted by law, Vidyasagar Sir and its operators shall not be
                 liable for any missed hearing, deadline, filing, lost data, lost profits, or any
                 indirect or consequential loss arising from your use of or inability to use the
                 Service. Our total liability for any claim shall not exceed the subscription fees
@@ -519,7 +519,7 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
               <Section n="14" title="Contact">
                 <p>For questions about these Terms, billing, or your data, contact us at
                 <span style={{ color: accent }}> +91 86938 52452</span> or
-                <span style={{ color: accent }}> vakildeskmain@gmail.com</span>.</p>
+                <span style={{ color: accent }}> vidyasagarsirmain@gmail.com</span>.</p>
               </Section>
 
               <p className="text-xs text-gray-500 pt-2 border-t border-white/10">

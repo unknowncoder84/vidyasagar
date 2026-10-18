@@ -1,7 +1,7 @@
 {
-  "name": "vakildesk",
+  "name": "vidyasagar-sir",
   "version": "1.0.0",
-  "description": "VakilDesk - Multi-tenant Legal Office Management System",
+  "description": "Vidyasagar Sir - Multi-tenant Legal Office Management System",
   "type": "module",
   "scripts": {
     "dev": "vite",

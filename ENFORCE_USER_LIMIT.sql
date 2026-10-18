@@ -1,5 +1,5 @@
--- ============================================
--- VAKILDESK: ENFORCE_USER_LIMIT.sql
+﻿-- ============================================
+-- VIDYASAGAR SIR: ENFORCE_USER_LIMIT.sql
 -- Adds a server-side guard so a firm can never
 -- exceed its plan's user limit — even if the
 -- frontend check is bypassed.

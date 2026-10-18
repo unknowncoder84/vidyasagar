@@ -1,11 +1,11 @@
-# VakilDesk — Gmail Reminder System
+﻿# VIDYASAGAR SIR — Gmail Reminder System
 
 ## What it does
 
 Automatically emails **clients** when their hearing is coming up (3 days, 2 days, 1 day, or same day).  
 Runs on behalf of each law firm using their connected Gmail account.  
 Reads from your Supabase database. Logs every send to the `email_logs` table.  
-The VakilDesk dashboard (Reminders page) shows sent/failed counts live.
+The VIDYASAGAR SIR dashboard (Reminders page) shows sent/failed counts live.
 
 ---
 
@@ -70,13 +70,13 @@ crontab -e
 4. Reads each tenant's `email_settings` (firm name, active toggle)
 5. Sends a branded HTML email from your Gmail → client's email
 6. Logs every attempt (sent / failed) to `email_logs`
-7. The Reminders page in VakilDesk shows these logs live
+7. The Reminders page in VIDYASAGAR SIR shows these logs live
 
 ---
 
 ## Controlling reminders per firm
 
-Admins can go to **Reminders → Email Settings** in VakilDesk to:
+Admins can go to **Reminders → Email Settings** in VIDYASAGAR SIR to:
 - Turn reminders on/off with a toggle
 - Set the firm name used in email subjects
 - Send a test email

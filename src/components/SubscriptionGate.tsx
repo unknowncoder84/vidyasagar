@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTenant } from '../contexts/TenantContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -39,7 +39,7 @@ const ExpiredPaywall: React.FC = () => {
           </h1>
           <p className="text-gray-400 text-center text-sm mb-8 leading-relaxed">
             {tenant?.plan === 'trial'
-              ? 'Your 14-day free trial is over. Choose a plan to continue using VakilDesk. Your data is safe and waiting for you.'
+              ? 'Your 14-day free trial is over. Choose a plan to continue using Vidyasagar Sir. Your data is safe and waiting for you.'
               : 'Your subscription has expired. Renew to continue managing your cases. All your data is safe.'}
           </p>
 
@@ -97,7 +97,7 @@ const ExpiredPaywall: React.FC = () => {
             View Plans & Subscribe
           </button>
           <a
-            href={`https://wa.me/918693852452?text=I want to subscribe to VakilDesk. My firm: ${tenant?.firm_name || ''}`}
+            href={`https://wa.me/918693852452?text=I want to subscribe to Vidyasagar Sir. My firm: ${tenant?.firm_name || ''}`}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full py-3 rounded-xl border border-white/10 text-gray-300 font-medium text-sm hover:bg-white/5 transition-colors flex items-center justify-center gap-2"

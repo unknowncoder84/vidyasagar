@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { Download, X, Share } from 'lucide-react';
 
-// Shows an install hint so users know VakilDesk can be added to their phone.
+// Shows an install hint so users know Vidyasagar Sir can be added to their phone.
 //  - Android / desktop Chrome: uses the native `beforeinstallprompt` event and
 //    shows an "Install App" button that triggers the browser install dialog.
 //  - iOS Safari: no install event exists, so we show short "Add to Home Screen"
@@ -77,11 +77,11 @@ const InstallPWA: React.FC = () => {
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9998] w-[calc(100%-1.5rem)] max-w-md px-3">
       <div className="rounded-2xl border border-orange-500/30 bg-[#1a1a2e] shadow-2xl p-4 flex items-start gap-3">
         <div className="w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
-          <img src="/logo.svg" alt="VakilDesk" className="w-full h-full object-cover" />
+          <img src="/logo.svg" alt="Vidyasagar Sir" className="w-full h-full object-cover" />
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className="text-white font-semibold text-sm">Install VakilDesk</p>
+          <p className="text-white font-semibold text-sm">Install Vidyasagar Sir</p>
 
           {show ? (
             <>
@@ -104,7 +104,7 @@ const InstallPWA: React.FC = () => {
             <p className="text-gray-400 text-xs mt-1 leading-relaxed">
               Tap the <Share size={13} className="inline -mt-0.5 text-orange-400" /> Share button in
               Safari, then choose <span className="text-white font-medium">“Add to Home Screen”</span> to
-              install VakilDesk.
+              install Vidyasagar Sir.
             </p>
           )}
         </div>

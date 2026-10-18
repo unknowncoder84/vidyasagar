@@ -1,4 +1,4 @@
-# VakilDesk — Legal Office Management System
+﻿# Vidyasagar Sir — Legal Office Management System
 
 A multi-tenant SaaS platform for law firms and advocates to manage cases, clients, counsel, appointments, tasks, attendance, expenses, and physical file storage — all from one dashboard.
 
@@ -23,7 +23,7 @@ Each firm registers its own account (a "tenant") and gets a fully isolated works
 
 ## What's Inside
 
-VakilDesk is a complete, production-ready legal practice management app:
+Vidyasagar Sir is a complete, production-ready legal practice management app:
 
 - **Multi-tenant** — every firm has its own isolated data, scoped by `tenant_id`
 - **Custom auth** — username + password login backed by the `authenticate_user` database function
@@ -93,7 +93,7 @@ New firms start on a **14-day free trial**.
 ## Project Structure
 
 ```
-VakilDesk/
+vidyasagar-sir/
 ├── LEGALFLOW_FINAL.sql      # Main database setup (run first)
 ├── PLAN_UPDATE.sql          # Pricing + extra tables (run second)
 ├── index.html
@@ -151,7 +151,7 @@ See the next section for the exact order.
 ### 4. Turn OFF email confirmations
 
 In **Supabase → Authentication → Settings**, turn **"Enable email confirmations" OFF**.
-(VakilDesk uses its own username/password system, so this prevents conflicts.)
+(Vidyasagar Sir uses its own username/password system, so this prevents conflicts.)
 
 ---
 
