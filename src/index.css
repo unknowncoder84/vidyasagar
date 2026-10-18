@@ -1,0 +1,370 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   DESIGN SYSTEM — "Docket"
+   A deliberate departure from the previous glass/neon/cyber look.
+   Editorial, paper-and-ink inspired: serif display type, hairline
+   borders, flat panels, and one confident accent colour (a muted
+   gold/seal tone) used sparingly against a black/white/grey base.
+   ============================================================ */
+
+/* Neutral scale — drives all "brand" utilities (orange/amber Tailwind
+   classes map to this via tailwind.config.js) app-wide. Kept as a grey
+   ramp since the client wants a black/grey/white app. */
+:root {
+  --brand-50: 250 250 250;
+  --brand-100: 244 244 245;
+  --brand-200: 228 228 231;
+  --brand-300: 161 161 170;
+  --brand-400: 113 113 122;
+  --brand-500: 82 82 91;
+  --brand-600: 63 63 70;
+  --brand-700: 39 39 42;
+  --brand-800: 24 24 27;
+  --brand-900: 9 9 11;
+
+  /* Accent — previously a gold/seal tone, now neutral grey so every
+     button, highlight, and focus ring stays monochrome app-wide. */
+  --accent: 161 161 170;      /* grey-400 */
+  --accent-soft: 212 212 216; /* grey-300, lighter tint for dark-mode text */
+
+  --ink: 15 15 16;            /* near-black ink colour for dark surfaces */
+  --paper: 250 250 249;       /* warm paper white for light surfaces */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: rgb(var(--ink));
+  color: #f4f4f5;
+  min-height: 100vh;
+}
+
+body.light-mode {
+  background: rgb(var(--paper));
+  color: #18181b;
+}
+
+/* Serif display type — used for page titles / headings only, giving the
+   whole app an editorial, "law journal" feel instead of generic sans. */
+.font-display {
+  font-family: 'Fraunces', serif;
+  font-optical-sizing: auto;
+}
+
+/* Monospace — used for case/file numbers, dates, ids: small deliberate
+   detail that reinforces the "docket/ledger" feel. */
+.font-mono-ui {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Mobile-only: never allow the whole page to scroll sideways. */
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+}
+
+/* ------------------------------------------------------------
+   Panels — flat "paper" cards. Replaces all previous glass /
+   glow / blur surfaces with a hairline-bordered flat panel.
+   ------------------------------------------------------------ */
+.glass,
+.glass-dark,
+.card-modern,
+.gradient-border {
+  background: rgb(var(--ink) / 1);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 4px;
+  position: relative;
+}
+
+body.light-mode .glass,
+body.light-mode .glass-dark,
+body.light-mode .card-modern,
+body.light-mode .gradient-border {
+  background: #ffffff;
+  border: 1px solid rgba(24, 24, 27, 0.1);
+}
+
+.glass-light {
+  background: #ffffff;
+  border: 1px solid rgba(24, 24, 27, 0.1);
+  border-radius: 4px;
+}
+
+/* top hairline accent — a tiny signature detail instead of a glow */
+.card-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 2px;
+  background: rgb(var(--accent));
+  opacity: 0.9;
+}
+
+.card-modern {
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card-modern:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+body.light-mode .card-modern:hover {
+  border-color: rgba(24, 24, 27, 0.18);
+}
+
+.neon-glow,
+.neon-border {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+/* Static two-tone text treatment (ink -> accent), no animation */
+.gradient-text,
+.holographic-text {
+  background: linear-gradient(120deg, currentColor 55%, rgb(var(--accent)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ------------------------------------------------------------
+   Buttons — flat ink / outline / accent. Square-ish corners,
+   no shine sweep, no glow.
+   ------------------------------------------------------------ */
+.btn-primary {
+  background: #f4f4f5;
+  color: #09090b;
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  border-radius: 3px;
+  transition: opacity 0.15s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+body.light-mode .btn-primary {
+  background: #18181b;
+  color: #fafafa;
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #f4f4f5;
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  cursor: pointer;
+}
+
+body.light-mode .btn-secondary {
+  color: #18181b;
+  border-color: rgba(24, 24, 27, 0.2);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgb(var(--accent) / 0.6);
+}
+
+body.light-mode .btn-secondary:hover {
+  background: rgba(24, 24, 27, 0.04);
+}
+
+/* ------------------------------------------------------------
+   Motion — minimal, purposeful only. Ambient glow/float/mesh
+   animations removed; replaced with inert aliases so existing
+   classNames in components don't break anything.
+   ------------------------------------------------------------ */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+@keyframes pulse-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+.animate-pulse-glow { animation: pulse-glow 2.2s ease-in-out infinite; }
+
+/* ------------------------------------------------------------
+   Scrollbar — thin, monochrome
+   ------------------------------------------------------------ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+body.light-mode ::-webkit-scrollbar-thumb { background: rgba(24, 24, 27, 0.15); }
+body.light-mode ::-webkit-scrollbar-thumb:hover { background: rgba(24, 24, 27, 0.25); }
+
+/* ------------------------------------------------------------
+   Inputs — flat, accent focus ring (the one spot of colour)
+   ------------------------------------------------------------ */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: rgb(var(--accent)) !important;
+  box-shadow: 0 0 0 3px rgb(var(--accent) / 0.18);
+}
+
+input::placeholder, textarea::placeholder {
+  color: #9ca3af !important;
+  opacity: 1 !important;
+}
+
+select option { background-color: #18181b; color: white; }
+body.light-mode input::placeholder, body.light-mode textarea::placeholder { color: #71717a !important; opacity: 1 !important; }
+body.light-mode select option { background-color: white; color: #18181b; }
+
+/* ------------------------------------------------------------
+   Tables — "ledger" style: hairline row dividers, mono numerals,
+   uppercase tracked headers. No gradient header fill.
+   ------------------------------------------------------------ */
+.table-modern {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table-modern th {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: #a1a1aa;
+}
+
+body.light-mode .table-modern th {
+  border-bottom: 1px solid rgba(24, 24, 27, 0.12);
+  color: #52525b;
+}
+
+.table-modern tr:hover td { background: rgba(255, 255, 255, 0.03); }
+body.light-mode .table-modern tr:hover td { background: rgba(24, 24, 27, 0.025); }
+
+/* ------------------------------------------------------------
+   Badges — outline pills instead of filled gradient chips
+   ------------------------------------------------------------ */
+.badge {
+  padding: 0.3rem 0.85rem;
+  border-radius: 2px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid currentColor;
+  background: transparent;
+}
+
+.badge-success { color: #34d399; }
+.badge-warning { color: #d4b878; }
+.badge-danger  { color: #f87171; }
+.badge-info    { color: #38bdf8; }
+body.light-mode .badge-success { color: #059669; }
+body.light-mode .badge-warning { color: #92720f; }
+body.light-mode .badge-danger  { color: #dc2626; }
+body.light-mode .badge-info    { color: #0369a1; }
+
+/* ------------------------------------------------------------
+   Background mesh — replaced with a plain static surface.
+   ------------------------------------------------------------ */
+.bg-mesh { background-image: none; }
+.matrix-bg { display: none; }
+
+/* Shimmer — kept, toned down */
+.shimmer {
+  background: linear-gradient(110deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+::selection { background: rgb(var(--accent) / 0.35); color: inherit; }
+
+.text-glow { text-shadow: none; }
+.shadow-cyber, .shadow-cyber-pink, .shadow-card, .shadow-glow, .shadow-justice, .shadow-orange {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.18);
+}
+body.light-mode .shadow-cyber, body.light-mode .shadow-cyber-pink, body.light-mode .shadow-card,
+body.light-mode .shadow-glow, body.light-mode .shadow-justice, body.light-mode .shadow-orange {
+  box-shadow: 0 1px 2px rgba(24,24,27,0.06), 0 4px 10px rgba(24,24,27,0.06);
+}
+
+.page-transition { animation: page-fade-in 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes page-fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.hover-lift { transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease; }
+.hover-lift:hover { transform: translateY(-3px); }
+
+/* Global smoothing — every interactive element gets a consistent, gentle
+   transition by default instead of snapping instantly, without touching
+   transitions that are already explicitly defined per-component. */
+a, button, input, select, textarea {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body, body.light-mode {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.bg-gradient-magenta, .bg-gradient-cyber, .bg-gradient-void, .bg-gradient-dark {
+  background: rgb(var(--ink));
+}
+body.light-mode .bg-gradient-void, body.light-mode .bg-gradient-dark { background: rgb(var(--paper)); }
+body.light-mode .bg-gradient-cyber, body.light-mode .bg-gradient-magenta { background: #18181b; }
+
+.ripple { position: relative; overflow: hidden; }
+.ripple::after {
+  content: ''; position: absolute; top: 50%; left: 50%; width: 5px; height: 5px;
+  background: rgba(255, 255, 255, 0.5); opacity: 0; border-radius: 100%;
+  transform: scale(1); transform-origin: 50% 50%; pointer-events: none;
+}
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+.ripple:active::after { animation: ripple 0.6s ease-out; }
+
+.transition-smooth { transition: all 0.25s ease; }
+
+@keyframes icon-bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.icon-bounce:hover { animation: icon-bounce 0.4s ease; }
+
+body.light-mode .animate-cyber-pulse { animation: none; }
+.animate-cyber-pulse { animation: pulse-glow 2.2s ease-in-out infinite; }
+
+@keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.75; } }
+.animate-pulse-slow { animation: pulse-slow 2.5s ease-in-out infinite; }
+
+@keyframes smooth-scale { 0% { transform: scale(0.97); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+.animate-smooth-scale { animation: smooth-scale 0.25s ease-out; }
+
+@keyframes fade-in-up { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: translateY(0); } }
+.animate-fade-in-up { animation: fade-in-up 0.4s ease-out; }
+
+@keyframes slide-in-right { 0% { opacity: 0; transform: translateX(20px); } 100% { opacity: 1; transform: translateX(0); } }
+.animate-slide-in-right { animation: slide-in-right 0.3s ease-out; }
+
+@keyframes bounce-dot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.animate-bounce-dot { animation: bounce-dot 1.4s ease-in-out infinite; }
