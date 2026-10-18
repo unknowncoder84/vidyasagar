@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { useAuthScreenTheme } from '../lib/useAuthScreenTheme';
-import { User, Lock, ArrowRight, CheckCircle2, Eye, EyeOff } from 'lucide-react';
+import { User, Lock, ArrowRight, CheckCircle2, Eye, EyeOff, Info } from 'lucide-react';
 
 const INDIAN_STATES = [
   'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana',
@@ -71,6 +71,10 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
 
   const handleRegStep1 = () => {
     setRegError('');
+    if (!isSupabaseConfigured()) {
+      setRegError('This is a demo preview — firm registration needs a real database connected. Use the Sign In tab with any username/password to explore the demo instead.');
+      return;
+    }
     if (!firmName.trim()) { setRegError('Firm name is required.'); return; }
     if (!ownerName.trim()) { setRegError('Owner name is required.'); return; }
     if (!ownerEmail.trim() || !ownerEmail.includes('@')) { setRegError('Valid email is required.'); return; }
@@ -264,6 +268,15 @@ const LoginPage: React.FC = () => {  const [activeTab, setActiveTab] = useState<
                 <p className="text-center text-gray-500 text-xs mt-2">
                   Staff members: use the username your admin created for you
                 </p>
+                {!isSupabaseConfigured() && (
+                  <div className="flex items-start gap-2 text-xs text-gray-400 bg-white/[0.04] border border-white/10 rounded-sm p-3 mt-3">
+                    <Info size={14} className="mt-0.5 flex-shrink-0" />
+                    <span>
+                      <strong className="text-gray-200">Demo preview</strong> — no database is connected yet.
+                      Enter any username and password to explore the app with sample data.
+                    </span>
+                  </div>
+                )}
               </form>
             )}
 

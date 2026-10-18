@@ -23,7 +23,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useData } from '../contexts/DataContext';
 import { useTenant } from '../contexts/TenantContext';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { formatIndianDate } from '../utils/dateFormat';
 import { planLabel } from '../lib/planUtils';
 import { User, CreateUserData, UserRole } from '../types';
@@ -178,6 +178,11 @@ const AdminPage: React.FC = () => {
     
     if (!editFormData.name || !editFormData.email) {
       showNotification('error', 'Name and email are required');
+      return;
+    }
+
+    if (!isSupabaseConfigured()) {
+      showNotification('error', 'This is a demo preview — connect a real database to edit users.');
       return;
     }
     

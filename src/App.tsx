@@ -30,7 +30,6 @@ import SubscriptionPage from './pages/SubscriptionPage';
 import InstallPWA from './components/InstallPWA';
 import ExpiryWarning from './components/ExpiryWarning';
 import TaskPopupNotifier from './components/TaskPopupNotifier';
-import { isSupabaseConfigured } from './lib/supabase';
 
 import './index.css';
 
@@ -78,23 +77,12 @@ function AppWithTenant() {
 }
 
 function App() {
-  if (!isSupabaseConfigured()) {
-    return (
-      <div className="min-h-screen bg-[#0f0f1a] flex items-center justify-center p-4">
-        <div className="glass-dark rounded-2xl p-8 max-w-lg w-full border border-white/10 text-center">
-          <div className="text-6xl mb-4">⚙️</div>
-          <h1 className="text-2xl font-bold text-white mb-3">Configuration Required</h1>
-          <p className="text-gray-400 mb-4">VakilDesk needs Supabase credentials to work.</p>
-          <div className="bg-amber-900/20 border border-amber-500/30 rounded-xl p-4 text-left text-sm text-amber-300">
-            <p className="font-medium mb-2">Missing environment variables:</p>
-            <code className="block text-xs text-amber-400">VITE_SUPABASE_URL</code>
-            <code className="block text-xs text-amber-400">VITE_SUPABASE_ANON_KEY</code>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // DEMO MODE: when no real Supabase project is connected, the app still
+  // renders fully (instead of blocking behind a "Configuration Required"
+  // screen) so it can be browsed/shown with built-in demo data. Login
+  // falls back to a demo account automatically (see AuthContext). Once
+  // real credentials are set, this has no effect — the real backend
+  // takes over everywhere.
   return (
     <ThemeProvider>
       <AuthProvider>

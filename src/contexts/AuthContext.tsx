@@ -8,6 +8,8 @@ import {
   toggleUserStatusDb,
   deleteUserAccountDb,
 } from '../lib/userManagement';
+import { isSupabaseConfigured } from '../lib/supabase';
+import { demoAuthenticate } from '../lib/demoAuth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -43,11 +45,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [error, setError] = useState<string | null>(null);
 
   // On mount, if we have a cached user, load team users for admin
+  // (skipped in demo mode — no real backend to call)
   useEffect(() => {
-    if (user?.role === 'admin') {
+    if (user?.role === 'admin' && isSupabaseConfigured()) {
       getAllUsersDb().then(res => {
         if (res.success && res.users) setUsers(res.users);
       });
+    } else if (user?.role === 'admin') {
+      setUsers([user]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -56,7 +61,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     setError(null);
     try {
-      const result = await authenticateUser(username, password);
+      // Demo mode — no real Supabase project connected. Any
+      // username/password logs in as a demo admin so the app (and its
+      // built-in demo data) can be browsed/shown without a backend.
+      const result = isSupabaseConfigured()
+        ? await authenticateUser(username, password)
+        : await demoAuthenticate(username, password);
 
       if (!result.success || !result.user) {
         throw new Error(result.error || 'Login failed');
@@ -66,11 +76,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       cacheUser(result.user);
       localStorage.setItem('tenant_id', result.user.tenant_id || '');
 
-      // Load team users if admin
-      if (result.user.role === 'admin') {
+      // Load team users if admin (skipped in demo mode — no real backend)
+      if (result.user.role === 'admin' && isSupabaseConfigured()) {
         getAllUsersDb().then(res => {
           if (res.success && res.users) setUsers(res.users);
         });
+      } else if (result.user.role === 'admin') {
+        setUsers([result.user]);
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Login failed';
@@ -90,6 +102,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const createUser = async (userData: CreateUserData): Promise<{ success: boolean; error?: string }> => {
+    if (!isSupabaseConfigured()) {
+      return { success: false, error: 'This is a demo preview — connect a real database to create team members.' };
+    }
     try {
       const result = await createUserAccountDb(userData, user?.id);
       if (!result.success) return { success: false, error: result.error };
@@ -103,6 +118,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const updateUserRole = async (userId: string, role: UserRole): Promise<{ success: boolean; error?: string }> => {
     if (!user) return { success: false, error: 'Not authenticated' };
+    if (!isSupabaseConfigured()) {
+      return { success: false, error: 'This is a demo preview — connect a real database to manage roles.' };
+    }
     try {
       const result = await updateUserRoleDb(userId, role, user.id);
       if (!result.success) return { success: false, error: result.error };
@@ -125,6 +143,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const toggleUserStatus = async (userId: string): Promise<{ success: boolean; error?: string }> => {
     if (!user) return { success: false, error: 'Not authenticated' };
+    if (!isSupabaseConfigured()) {
+      return { success: false, error: 'This is a demo preview — connect a real database to manage users.' };
+    }
     try {
       const result = await toggleUserStatusDb(userId, user.id);
       if (!result.success) return { success: false, error: result.error };
@@ -138,6 +159,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const deleteUser = async (userId: string): Promise<{ success: boolean; error?: string }> => {
     if (!user) return { success: false, error: 'Not authenticated' };
+    if (!isSupabaseConfigured()) {
+      return { success: false, error: 'This is a demo preview — connect a real database to delete users.' };
+    }
     try {
       const result = await deleteUserAccountDb(userId, user.id);
       if (!result.success) return { success: false, error: result.error };
