@@ -3,6 +3,14 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
+// Explicit demo-mode override — set VITE_DEMO_MODE=true (in .env or in the
+// Netlify/host's environment variables) to force the whole app into demo
+// mode (auto-login, no login page, built-in sample data) regardless of
+// whatever VITE_SUPABASE_* values happen to be set. This avoids depending
+// on the "does this look like a placeholder" heuristic below, which can
+// be wrong if real-looking (but non-working) values are set on the host.
+const demoModeOverride = String(import.meta.env.VITE_DEMO_MODE || '').toLowerCase() === 'true'
+
 // Create a dummy client if env vars are missing (for build/deploy)
 export const supabase = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
@@ -18,6 +26,7 @@ export const supabase = createClient(
 
 // Check if Supabase is properly configured
 export const isSupabaseConfigured = () => {
+  if (demoModeOverride) return false
   return !!(supabaseUrl && supabaseAnonKey && 
     supabaseUrl !== 'https://placeholder.supabase.co' && 
     supabaseAnonKey !== 'placeholder-key')
