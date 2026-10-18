@@ -9,7 +9,7 @@ import {
   deleteUserAccountDb,
 } from '../lib/userManagement';
 import { isSupabaseConfigured } from '../lib/supabase';
-import { demoAuthenticate } from '../lib/demoAuth';
+import { demoAuthenticate, getDemoUser } from '../lib/demoAuth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -39,10 +39,26 @@ const cacheUser = (u: User | null) => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const cached = getCachedUser();
-  const [user, setUser] = useState<User | null>(cached);
+  // DEMO MODE: no real Supabase project connected and nobody has "logged
+  // in" yet in this browser — skip the login page entirely and drop
+  // straight into the app as a demo admin. Once a real database is
+  // connected, isSupabaseConfigured() is true and this has no effect, so
+  // the real login screen/flow behaves exactly as before.
+  const initialUser = cached || (!isSupabaseConfigured() ? getDemoUser('Demo Admin') : null);
+  const [user, setUser] = useState<User | null>(initialUser);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Persist the auto-created demo session the same way a real login would,
+  // so refreshes and TenantProvider's localStorage fallback both see it.
+  useEffect(() => {
+    if (!cached && initialUser) {
+      cacheUser(initialUser);
+      localStorage.setItem('tenant_id', initialUser.tenant_id || '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // On mount, if we have a cached user, load team users for admin
   // (skipped in demo mode — no real backend to call)
@@ -100,6 +116,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('tenant_id');
     localStorage.removeItem(CACHED_USER_KEY);
   };
+
+  // DEMO MODE: if someone explicitly logs out while no real backend is
+  // connected, log them straight back in as the demo admin on the next
+  // render instead of leaving them stuck on a login screen that doesn't
+  // do anything real. Real logout (with a real backend) behaves normally.
+  useEffect(() => {
+    if (!user && !isSupabaseConfigured()) {
+      const demo = getDemoUser('Demo Admin');
+      setUser(demo);
+      cacheUser(demo);
+      localStorage.setItem('tenant_id', demo.tenant_id || '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const createUser = async (userData: CreateUserData): Promise<{ success: boolean; error?: string }> => {
     if (!isSupabaseConfigured()) {

@@ -30,6 +30,7 @@ import SubscriptionPage from './pages/SubscriptionPage';
 import InstallPWA from './components/InstallPWA';
 import ExpiryWarning from './components/ExpiryWarning';
 import TaskPopupNotifier from './components/TaskPopupNotifier';
+import { isSupabaseConfigured } from './lib/supabase';
 
 import './index.css';
 
@@ -39,12 +40,18 @@ function AppWithTenant() {
   // Use user.tenant_id when logged in; fall back to localStorage for page refreshes
   const tenantId = user?.tenant_id || localStorage.getItem('tenant_id') || undefined;
 
+  // DEMO MODE: no login page at all — visiting /login goes straight to
+  // the dashboard, since AuthContext auto-signs everyone in as a demo
+  // admin when no real backend is connected. Once real credentials are
+  // set, the normal login screen is restored automatically.
+  const demoMode = !isSupabaseConfigured();
+
   return (
     <TenantProvider tenantId={tenantId} key={tenantId || 'no-tenant'}>
       <DataProvider>
         <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={demoMode ? <Navigate to="/dashboard" replace /> : <LoginPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><SubscriptionGate><DashboardPage /></SubscriptionGate></ProtectedRoute>} />
             <Route path="/cases" element={<ProtectedRoute><SubscriptionGate><CasesPage /></SubscriptionGate></ProtectedRoute>} />
             <Route path="/cases/create" element={<ProtectedRoute><SubscriptionGate><CreateCasePage /></SubscriptionGate></ProtectedRoute>} />
